@@ -1,29 +1,33 @@
 const jwt = require('jsonwebtoken')
-const secret = '5299e7ecd6d16372015de6c1b9104521ea296fe312986aacbe583c4a56ba5f78814de5f8abdb23b7ce00a6518d09c3a7'
+const DEFAULT_SECRET = '5299e7ecd6d16372015de6c1b9104521ea296fe312986aacbe583c4a56ba5f78814de5f8abdb23b7ce00a6518d09c3a7'
 
-const tokenizer = {}
+class Tokenizer {
 
-// Set jwt token
-tokenizer.setToken = (data) => {
-  try {
-    return jwt.sign(data, secret)
-  } catch (err) {
-    console.log('JWT Sign error: ', err)
+  constructor (options = {}) {
+    this.secret = options.secret || DEFAULT_SECRET
+    this.field = options.field || 'authorization'
   }
-}
 
-// Get jwt token
-tokenizer.getToken = (req) => {
-  let token = req.headers.authorization
-  if (token) {
+  // Set jwt token
+  setToken (data) {
     try {
-      const data = jwt.verify(token, secret)
-      return data
+      return jwt.sign(data, this.secret)
     } catch (err) {
-      console.log('JWT verify error: ', err)
+      console.log('JWT Sign error: ', err)
     }
   }
-  return null
+
+  // Get jwt token
+  getToken (req) {
+    let token = req.headers[this.field]
+    if (token) {
+      try {
+        return jwt.verify(token, this.secret)
+      } catch (err) {
+        console.log('JWT verify error: ', err)
+      }
+    }
+  }
 }
 
-module.exports = tokenizer
+module.exports = Tokenizer
