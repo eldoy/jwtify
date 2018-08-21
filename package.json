@@ -1,0 +1,20 @@
+{
+  "name": "jwtify",
+  "version": "0.0.1",
+  "description": "Set and get your JWT tokens",
+  "main": "jwtify.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "author": "Vidar",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^23.5.0"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.3.0"
+  }
+}
